@@ -35,7 +35,8 @@ fi
 if [ ! -e refseq_seq.fna ]; then
 	echo "extracting refseq sequences"
 	./refseq_seq_extractor.py --refseq_path $REFSEQ_PATH \
-			--output_file refseq_seq.fna --threads $THREADS
+			--output_file refseq_seq.fna --threads $THREADS \
+			--min_length $MIN_REFSEQ_LEN
 fi
 
 if [ ! -e refseq_reads1.fq -o ! -e refseq_reads2.fq ]; then
@@ -57,13 +58,13 @@ fi
 
 if [ ! -e all_reads.tsv ]; then
 	echo "making combined plasmid and refseq tsv file"
-	echo "sequence\tis_plasmid" > all_reads.tsv
+	echo -e "sequence\tis_plasmid" > all_reads.tsv
 	cat plasmid_reads.tsv refseq_reads.tsv >> all_reads.tsv
 fi
 
 if [ ! -e balanced_reads.tsv ]; then
 	echo "balancing representation of classes"
-	./all_seq_balance.py --input_file all_seq.tsv --output_file balanced_seq.tsv \
+	./all_seq_balance.py --input_file all_reads.tsv --output_file balanced_reads.tsv \
 			--positive_samples $CLASS_SAMPLES --random_seed $RANDOM_SEED
 fi
 
