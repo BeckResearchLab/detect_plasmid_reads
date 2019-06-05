@@ -1,0 +1,35 @@
+---
+ops: [evaluate]
+model: {
+    path: /work/dacb/detect_plasmid/model.py,
+    class: DeeperDeepSEA,
+    class_args: {
+        sequence_length: 300,
+        n_targets: 1,
+    },
+    #non_strand_specific: mean
+}
+sampler: !obj:hdf5_sampler.Hdf5FileSampler {
+    filepath: /work/dacb/detect_plasmid/all_cds_test.h5,
+    sequence_key: sequence,
+    targets_key: target,
+    sequence_batch_axis: 0,
+    sequence_alphabet_axis: 2,
+    targets_batch_axis: 1,
+    shuffle: True
+}
+evaluate_model: !obj:selene_sdk.EvaluateModel {
+        #trained_model_path: /work/dacb/detect_plasmid/training_outputs/best_model.pth.tar,
+    trained_model_path: /work/dacb/detect_plasmid/training_outputs/checkpoint.pth.tar,
+    features: !obj:selene_sdk.utils.load_features_list {
+        input_path: /work/dacb/detect_plasmid/features.txt
+    },
+    batch_size: 64,
+    report_gt_feature_n_positives: 10,
+    use_cuda: False
+}
+random_seed: 42
+output_dir: ./evaluation_outputs
+create_subdirectory: False
+#load_test_set: False
+...

@@ -1,0 +1,9 @@
+#!/usr/bin/env python
+
+from selene_sdk.utils import load_path
+from selene_sdk.utils import parse_configs_and_run
+
+import hdf5_sampler
+
+configs = load_path("evaluate.yml", instantiate=False)
+parse_configs_and_run(configs)
