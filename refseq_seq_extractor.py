@@ -43,7 +43,7 @@ def gff_seq_extract(filepath, min_length, max_length):
             if min_length > 0 and len(seq_record.seq) >= min_length:
                 greater_than_min = 1
             if less_than_max and greater_than_min:
-                output.write(f">{seq_record.id}\t{taxonomy[0] if len(taxonomy) > 0 else np.nan}\t{taxonomy[1] if len(taxonomy) > 1 else np.nan}\t{taxonomy[2] if len(taxonomy) > 2 else np.nan}\t{taxonomy[3] if len(taxonomy) > 3 else np.nan}\t{taxonomy[4] if len(taxonomy) > 4 else np.nan}\t{taxonomy[5] if len(taxonomy) > 5 else np.nan}\n{feature.location.extract(seq_record).seq}\n")
+                output.write(f">{seq_record.id}\t{taxonomy[0] if len(taxonomy) > 0 else np.nan}\t{taxonomy[1] if len(taxonomy) > 1 else np.nan}\t{taxonomy[2] if len(taxonomy) > 2 else np.nan}\t{taxonomy[3] if len(taxonomy) > 3 else np.nan}\t{taxonomy[4] if len(taxonomy) > 4 else np.nan}\t{taxonomy[5] if len(taxonomy) > 5 else np.nan}\n{seq_record.seq}\n")
     except AttributeError:
         print(f'parsing of file {filepath} failed')
 
