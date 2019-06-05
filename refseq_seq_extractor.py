@@ -88,7 +88,7 @@ def refseq_seq_extractor(threads, refseq_path, output_file, genbank_postfix, inc
     print(f'using {threads} parallel parsers')
 
     f = open(output_file, 'w')
-    f.write('gff_file\tid\tkingdom\tphylum\tclass\torder\tfamily\tgenus\tproduct_id\tsequence\n')
+    #f.write('gff_file\tid\tkingdom\tphylum\tclass\torder\tfamily\tgenus\tproduct_id\tsequence\n')
     f.flush()
 
     lock = multiprocessing.Lock()
