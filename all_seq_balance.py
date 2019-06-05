@@ -16,10 +16,10 @@ import pandas as pd
 @click.option('-s', '--positive_samples', 'positive_samples', type=int,
         default=0, show_default=True,
         help='limit the number of positive samples to this number (disabled = 0)')
-def all_cds_balance(input_file, output_file, random_seed, positive_samples):
+def all_seq_balance(input_file, output_file, random_seed, positive_samples):
     """Balance samples of sequences for a binary classification on the is_plasmid field"""
 
-    print(f'reading cds tsv data file {input_file}')
+    print(f'reading seq tsv data file {input_file}')
     df = pd.read_csv(input_file, sep='\t').filter(items=['sequence', 'is_plasmid'])
     print(f'there were {df.shape[0]} sequences in {input_file}')
 
@@ -45,4 +45,4 @@ def all_cds_balance(input_file, output_file, random_seed, positive_samples):
 
 
 if __name__ == '__main__':
-    all_cds_balance()
+    all_seq_balance()
