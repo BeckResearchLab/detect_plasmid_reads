@@ -1,0 +1,59 @@
+---
+ops: [train, evaluate]
+model: {
+    path: /work/dacb/detect_plasmid_reads/model.py,
+    class: DeeperDeepSEA,
+    class_args: {
+        sequence_length: 300,
+        n_targets: 1,
+    },
+    #non_strand_specific: mean
+}
+sampler: !obj:selene_sdk.samplers.MultiFileSampler {
+    train_sampler: !obj:hdf5_sampler.Hdf5FileSampler {
+        filepath: /work/dacb/detect_plasmid_reads/all_seq_train.h5,
+        sequence_key: sequence,
+        targets_key: target,
+        sequence_batch_axis: 0,
+        sequence_alphabet_axis: 2,
+        targets_batch_axis: 1,
+        shuffle: True
+    },
+    validate_sampler: !obj:hdf5_sampler.Hdf5FileSampler {
+        filepath: /work/dacb/detect_plasmid_reads/all_seq_valid.h5,
+        sequence_key: sequence,
+        targets_key: target,
+        sequence_batch_axis: 0,
+        sequence_alphabet_axis: 2,
+        targets_batch_axis: 1,
+        shuffle: True
+    },
+    test_sampler: !obj:hdf5_sampler.Hdf5FileSampler {
+        filepath: /work/dacb/detect_plasmid_reads/all_seq_test.h5,
+        sequence_key: sequence,
+        targets_key: target,
+        sequence_batch_axis: 0,
+        sequence_alphabet_axis: 2,
+        targets_batch_axis: 1,
+        shuffle: True
+    },
+    features: !obj:selene_sdk.utils.load_features_list {
+        input_path: /work/dacb/detect_plasmid_reads/features.txt
+    }
+}
+train_model: !obj:selene_sdk.TrainModel {
+    batch_size: 64,
+    max_steps: 1000000,  # update this value for longer training
+    report_stats_every_n_steps: 10000,
+    n_validation_samples: 16000,
+    #n_test_samples: 120000,
+    cpu_n_threads: 48,
+    use_cuda: False,
+    data_parallel: True,
+    logging_verbosity: 2
+}
+random_seed: 42
+output_dir: ./training_outputs
+create_subdirectory: False
+#load_test_set: False
+...
