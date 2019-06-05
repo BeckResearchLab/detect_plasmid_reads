@@ -33,7 +33,7 @@ def plasmid_seq_extractor(plasmids_fna_path, plasmids_gbff_path, output_file, ma
 
     print(f'writing records to {output_file}')
     f = open(output_file, 'w')
-    f.write('gff_file\tid\tkingdom\tphylum\tclass\torder\tfamily\tgenus\tproduct_id\tsequence\tis_plasmid\n')
+    #f.write('gff_file\tid\tkingdom\tphylum\tclass\torder\tfamily\tgenus\tproduct_id\tsequence\tis_plasmid\n')
     f.flush()
 
     print(f'reading FASTA file {plasmids_fna_path}')
@@ -63,7 +63,7 @@ def plasmid_seq_extractor(plasmids_fna_path, plasmids_gbff_path, output_file, ma
             if min_length > 0 and len(seq_record.seq) >= min_length:
                 greater_than_min = 1
             if less_than_max and greater_than_min:
-                f.write(f">{seq_record.id}\t{taxonomy[0] if len(taxonomy) > 0 else np.nan}\t{taxonomy[1] if len(taxonomy) > 1 else np.nan}\t{taxonomy[2] if len(taxonomy) > 2 else np.nan}\t{taxonomy[3] if len(taxonomy) > 3 else np.nan}\t{taxonomy[4] if len(taxonomy) > 4 else np.nan}\t{taxonomy[5] if len(taxonomy) > 5 else np.nan}\t{feature.qualifiers['protein_id'][0] if 'protein_id' in feature.qualifiers else np.nan}\n{seq_record.seq}\n")
+                f.write(f">{seq_record.id}\t{taxonomy[0] if len(taxonomy) > 0 else np.nan}\t{taxonomy[1] if len(taxonomy) > 1 else np.nan}\t{taxonomy[2] if len(taxonomy) > 2 else np.nan}\t{taxonomy[3] if len(taxonomy) > 3 else np.nan}\t{taxonomy[4] if len(taxonomy) > 4 else np.nan}\t{taxonomy[5] if len(taxonomy) > 5 else np.nan}\n{seq_record.seq}\n")
     except AttributeError:
         print(f'parsing of file {filepath} failed')
 
