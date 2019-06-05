@@ -94,8 +94,8 @@ def refseq_seq_extractor(threads, refseq_path, output_file, genbank_postfix, inc
     lock = multiprocessing.Lock()
     process_pool = multiprocessing.Pool(threads,
             initializer=process_pool_init, initargs=(lock, f, include_all, ))
-    gff_seq_extract_f = partial(gff_seq_extract, min_length, max_length)
-    process_pool.map(gff_seq_extract, gbff_files)
+    gff_seq_extract_f = partial(gff_seq_extract, min_length=min_length, max_length=max_length)
+    process_pool.map(gff_seq_extract_f, gbff_files)
     process_pool.close()
     process_pool.join()
 
